@@ -35,6 +35,12 @@
               icon="pi pi-user"
               class="w-10rem mx-auto"
             ></Button>
+            <Button
+              @click="loginTest"
+              label="teste"
+              icon="pi pi-user"
+              class="w-10rem mx-auto"
+            ></Button>
           </div>
           <div class="w-full md:w-2">
             <Divider layout="vertical" class="hidden md:flex"
@@ -68,6 +74,9 @@
 
 <script>
 import CreateUserModal from "@/components/CreateUserModal.vue";
+
+import apiClient from "@/services/api";
+
 export default {
   components: {
     CreateUserModal,
@@ -90,6 +99,16 @@ export default {
     },
     getModalState(btnInfo) {
       this.modalClick = btnInfo;
+    },
+
+    async loginTest() {
+      try {
+        const response = await apiClient.get("/");
+        const contacts = response.data;
+        console.log(contacts);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

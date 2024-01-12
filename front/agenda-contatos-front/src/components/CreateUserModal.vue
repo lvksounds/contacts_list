@@ -77,6 +77,7 @@
               :class="{
                 'border-red-500': isWrong,
                 'border-green-500': isCorrect,
+                'border-none': newPasswordValidate === '',
               }"
               @change="validateNewPassword"
             ></InputText>
