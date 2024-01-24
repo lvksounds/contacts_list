@@ -4,7 +4,8 @@
     <template #content>
       <div class="card">
         <div class="flex flex-column md:flex-row">
-          <div
+          <form
+            @submit.prevent="Login"
             class="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5"
           >
             <div
@@ -30,18 +31,18 @@
               />
             </div>
             <Button
-              @click="submitUser"
+              type="submit"
               label="Login"
               icon="pi pi-user"
               class="w-10rem mx-auto"
             ></Button>
-            <Button
+            <!-- <Button
               @click="loginTest"
               label="teste"
               icon="pi pi-user"
               class="w-10rem mx-auto"
-            ></Button>
-          </div>
+            ></Button> -->
+          </form>
           <div class="w-full md:w-2">
             <Divider layout="vertical" class="hidden md:flex"
               ><b>OR</b></Divider
@@ -75,7 +76,7 @@
 <script>
 import CreateUserModal from "@/components/CreateUserModal.vue";
 
-import apiClient from "@/services/api";
+import axiosInstance from "@/services/api";
 
 export default {
   components: {
@@ -103,11 +104,20 @@ export default {
 
     async loginTest() {
       try {
-        const response = await apiClient.get("/");
-        const contacts = response.data;
-        console.log(contacts);
+        const response = await axiosInstance.get(`/${this.User.username}`);
+        const responseData = response.data;
+        console.log("backend return: ", responseData);
       } catch (error) {
         console.log(error);
+      }
+    },
+
+    async Login() {
+      try {
+        const response = await axiosInstance.post(`/auth`, this.User);
+        console.log(response);
+      } catch (error) {
+        console.log(error?.response?.data);
       }
     },
   },

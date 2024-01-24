@@ -1,4 +1,7 @@
+using AgendaContatos.Back.data;
+using AgendaContatos.Back.services.Users;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,15 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader().AllowAnyMethod();
     });
 });
+
+var connectionString = builder.Configuration.GetConnectionString("DbConnection");
+builder.Services.AddDbContext<DataBaseContext>(options =>
+{
+    options.UseSqlite(connectionString);
+});
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<INewUserService, NewUserService>();
 
 var app = builder.Build();
 

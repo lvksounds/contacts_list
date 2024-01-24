@@ -1,9 +1,9 @@
 <template>
   <nav>
     <nav>
-      <router-link to="/">Login</router-link>
+      <router-link :to="{ name: 'login' }">Login</router-link>
       |
-      <router-link to="/home">Home</router-link>
+      <router-link :to="{ name: 'home' }">Home</router-link>
     </nav>
   </nav>
   <router-view />
