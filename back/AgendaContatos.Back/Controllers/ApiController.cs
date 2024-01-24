@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using AgendaContatos.Back.services.Users;
+using System.Reflection.Metadata.Ecma335;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AgendaContatos.Back.Controllers
@@ -37,7 +38,17 @@ namespace AgendaContatos.Back.Controllers
         [HttpPost("create-user")]
         public async Task<IActionResult> CreateNewUser([FromBody]User user)
         {
-            User newUser = user;
+            if(user != null)
+            {
+                var createdUser = await _newUserService.CreateNewUser(user);
+                
+                if(createdUser.Equals("UserCreated"))
+                {
+                    return Ok(createdUser);
+                }
+
+            }
+            return Unauthorized("error");
 
         }
         

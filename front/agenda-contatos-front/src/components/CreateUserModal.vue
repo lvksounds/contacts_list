@@ -67,7 +67,7 @@
                 id="password"
                 class="bg-white-alpha-20 border-none p-3 text-primary-50"
                 type="password"
-                v-model="newUser.password"
+                v-model="newUser.passwordHash"
               ></InputText>
             </div>
             <div class="inline-flex flex-column gap-2">
@@ -111,6 +111,8 @@
 </template>
 
 <script>
+import axiosInstance from "@/services/api";
+
 export default {
   props: {
     modalClick: Boolean,
@@ -123,7 +125,7 @@ export default {
         name: "",
         email: "",
         username: "",
-        password: "",
+        passwordHash: "",
       },
       newPasswordValidate: "",
       isWrong: false,
@@ -136,19 +138,20 @@ export default {
       this.$emit("modal-event", this.visible);
     },
     createNewUser() {
-      console.log(
-        this.newUser.name,
-        this.newUser.email,
-        this.newUser.username,
-        this.newUser.password
-      );
+      try {
+        const response = axiosInstance.post("/create-user", this.newUser);
+        const resData = response.data;
+        console.log(resData);
+      } catch (error) {
+        console.log(error);
+      }
     },
     validateNewPassword() {
       if (this.newPasswordValidate !== "") {
-        if (this.newPasswordValidate !== this.newUser.password) {
+        if (this.newPasswordValidate !== this.newUser.passwordHash) {
           this.isWrong = true;
           this.isCorrect = false;
-        } else if (this.newPasswordValidate === this.newUser.password) {
+        } else if (this.newPasswordValidate === this.newUser.passwordHash) {
           this.isWrong = false;
           this.isCorrect = true;
         }

@@ -22,24 +22,21 @@ namespace AgendaContatos.Back.services.Users
 
         public async Task<string> CreateNewUser(User user)
         {
-            User NewUser = user;
-
-            NewUser.UserId = GetNewUserId();
-
-            if (NewUser == null)
+            if (user == null)
             {
                 return "UserNull";
             }
 
-            var alreadyHasUser = await _dataBaseContext.Users.Where(u => u.UserId == NewUser.UserId).FirstAsync();
+            User NewUser = user;
+            NewUser.UserId = GetNewUserId();
+            
+            _dataBaseContext.Users.Add(NewUser);
+            _dataBaseContext.SaveChanges();
 
-            if (!alreadyHasUser.Equals(null))
-            {
-                _dataBaseContext.Add<User>(NewUser);
-                return "UserCreated";
-            }
+            return "UserCreated";
+            
 
-            return "Error";
+            
         }
     }
 }

@@ -27,7 +27,7 @@
                 id="password"
                 type="password"
                 class="w-12rem"
-                v-model="User.password"
+                v-model="User.passwordHash"
               />
             </div>
             <Button
@@ -87,13 +87,13 @@ export default {
       modalClick: false,
       User: {
         username: "",
-        password: "",
+        passwordHash: "",
       },
     };
   },
   methods: {
     submitUser() {
-      console.log(this.User.username, this.User.password);
+      console.log(this.User.username, this.User.passwordHash);
     },
     openModal() {
       this.modalClick = true;
