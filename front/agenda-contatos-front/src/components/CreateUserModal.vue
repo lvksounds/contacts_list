@@ -67,7 +67,7 @@
                 id="password"
                 class="bg-white-alpha-20 border-none p-3 text-primary-50"
                 type="password"
-                v-model="newUser.passwordHash"
+                v-model="newUser.password"
               ></InputText>
             </div>
             <div class="inline-flex flex-column gap-2">
@@ -125,7 +125,7 @@ export default {
         name: "",
         email: "",
         username: "",
-        passwordHash: "",
+        password: "",
       },
       newPasswordValidate: "",
       isWrong: false,
@@ -148,10 +148,10 @@ export default {
     },
     validateNewPassword() {
       if (this.newPasswordValidate !== "") {
-        if (this.newPasswordValidate !== this.newUser.passwordHash) {
+        if (this.newPasswordValidate !== this.newUser.password) {
           this.isWrong = true;
           this.isCorrect = false;
-        } else if (this.newPasswordValidate === this.newUser.passwordHash) {
+        } else if (this.newPasswordValidate === this.newUser.password) {
           this.isWrong = false;
           this.isCorrect = true;
         }

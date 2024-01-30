@@ -8,11 +8,12 @@ namespace AgendaContatos.Back.Models
         public User(User user)
         {
             UserName = user.UserName; 
-            PasswordHash = user.PasswordHash;
+            Password = user.Password;
             Email = user.Email;
         }
         public string? UserId { get; set; }
         public string UserName { get; set; }
+        public string Password { get; set; }
         public string PasswordHash { get; set; }
         public string? Email { get; set; }
     }

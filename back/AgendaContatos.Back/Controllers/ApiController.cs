@@ -27,12 +27,13 @@ namespace AgendaContatos.Back.Controllers
         {
             string authenticatedUser;
 
-            if (user != null)
-            {
-                authenticatedUser = await _authService.AuthUser(user);
-                return Ok(authenticatedUser);
-            }
-            return Unauthorized("Não autorizado");
+            if (user == null) return NotFound(new { message = "Login inválido" });
+            
+            authenticatedUser = await _authService.AuthUser(user);
+             
+            return Ok(authenticatedUser);
+            
+            
         }
 
         [HttpPost("create-user")]

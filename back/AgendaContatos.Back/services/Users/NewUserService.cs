@@ -13,13 +13,6 @@ namespace AgendaContatos.Back.services.Users
             _dataBaseContext = dataBaseContext;
         }
 
-        public string GetNewUserId()
-        {
-            string id = (_dataBaseContext.Users.Count() + 1).ToString();
-
-            return id;
-        }
-
         public async Task<string> CreateNewUser(User user)
         {
             if (user == null)
@@ -35,8 +28,14 @@ namespace AgendaContatos.Back.services.Users
 
             return "UserCreated";
             
-
             
+        }
+
+        private string GetNewUserId()
+        {
+            string id = (_dataBaseContext.Users.Count() + 1).ToString();
+
+            return id;
         }
     }
 }
