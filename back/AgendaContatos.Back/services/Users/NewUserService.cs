@@ -1,7 +1,10 @@
 ﻿using AgendaContatos.Back.data;
 using AgendaContatos.Back.Models;
+using AgendaContatos.Back.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+
 namespace AgendaContatos.Back.services.Users
 {
     public class NewUserService : INewUserService
@@ -15,6 +18,7 @@ namespace AgendaContatos.Back.services.Users
 
         public async Task<string> CreateNewUser(User user)
         {
+            var hash = new Hash(SHA512.Create());
             if (user == null)
             {
                 return "UserNull";
@@ -22,6 +26,9 @@ namespace AgendaContatos.Back.services.Users
 
             User NewUser = user;
             NewUser.UserId = GetNewUserId();
+
+            var passwordHash = hash.EncriptyPassword(user.Password);
+            NewUser.Password = passwordHash;
             
             _dataBaseContext.Users.Add(NewUser);
             _dataBaseContext.SaveChanges();

@@ -139,9 +139,11 @@ export default {
     },
     createNewUser() {
       try {
-        const response = axiosInstance.post("/create-user", this.newUser);
-        const resData = response.data;
-        console.log(resData);
+        let resData = null;
+        const response = axiosInstance
+          .post("/create-user", this.newUser)
+          .then((data) => (resData = data))
+          .then(console.log(resData));
       } catch (error) {
         console.log(error);
       }

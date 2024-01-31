@@ -27,7 +27,7 @@
                 id="password"
                 type="password"
                 class="w-12rem"
-                v-model="User.passwordHash"
+                v-model="User.password"
               />
             </div>
             <Button
@@ -87,35 +87,22 @@ export default {
       modalClick: false,
       User: {
         username: "",
-        passwordHash: "",
+        password: "",
       },
     };
   },
   methods: {
-    submitUser() {
-      console.log(this.User.username, this.User.passwordHash);
-    },
     openModal() {
       this.modalClick = true;
     },
     getModalState(btnInfo) {
       this.modalClick = btnInfo;
     },
-
-    async loginTest() {
-      try {
-        const response = await axiosInstance.get(`/${this.User.username}`);
-        const responseData = response.data;
-        console.log("backend return: ", responseData);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
     async Login() {
       try {
         const response = await axiosInstance.post(`/auth`, this.User);
-        console.log(response);
+        const resData = response.data;
+        console.log(resData);
       } catch (error) {
         console.log(error?.response?.data);
       }
