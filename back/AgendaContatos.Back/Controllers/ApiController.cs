@@ -31,9 +31,13 @@ namespace AgendaContatos.Back.Controllers
             
             authenticatedUser = await _authService.AuthUser(user);
              
+            if(authenticatedUser.Equals("InvalidUser"))
+            {
+                return BadRequest(new { message = "Usuário Invalido" });
+            }           
+            
             return Ok(authenticatedUser);
-            
-            
+    
         }
 
         [HttpPost("create-user")]

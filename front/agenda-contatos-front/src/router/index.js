@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import { mapStores } from "pinia";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
+import { useAuthStore } from "@/stores/auth";
 
 const routes = [
   {
@@ -17,12 +19,32 @@ const routes = [
     path: "/home",
     name: "home",
     component: HomeView,
+    meta: {
+      auth: true,
+    },
   },
 ];
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta?.auth) {
+    const auth = useAuthStore();
+
+    if (auth.token && auth.user) {
+      const isAuthenticated = auth.checkToken();
+      if (isAuthenticated) {
+        next();
+      }
+    } else {
+      next(to.name === "login");
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

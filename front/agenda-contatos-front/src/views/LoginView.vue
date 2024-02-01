@@ -75,12 +75,35 @@
 
 <script>
 import CreateUserModal from "@/components/CreateUserModal.vue";
-
 import axiosInstance from "@/services/api";
+
+import { mapStores } from "pinia";
+
+import { defineStore } from "pinia";
+
+export const useAuthStore = defineStore("auth", {
+  state: () => ({
+    token: localStorage.getItem("token"),
+    user: JSON.parse(localStorage.getItem("user")),
+  }),
+  actions: {
+    setToken(tokenValue) {
+      localStorage.setItem("token", tokenValue);
+      this.token = tokenValue;
+    },
+    setUser(userValue) {
+      localStorage.setItem("user", userValue);
+      this.user = userValue;
+    },
+  },
+});
 
 export default {
   components: {
     CreateUserModal,
+  },
+  computed: {
+    ...mapStores(useAuthStore),
   },
   data() {
     return {
@@ -100,9 +123,9 @@ export default {
     },
     async Login() {
       try {
-        const response = await axiosInstance.post(`/auth`, this.User);
-        const resData = response.data;
-        console.log(resData);
+        const { data } = await axiosInstance.post(`/auth`, this.User);
+        this.authStore.setToken(data.token);
+        this.authStore.setUser(JSON.stringify(data.user));
       } catch (error) {
         console.log(error?.response?.data);
       }

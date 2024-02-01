@@ -4,6 +4,7 @@ using AgendaContatos.Back.services;
 using AgendaContatos.Back.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using System.Text.Json;
 namespace AgendaContatos.Back.services.Users
 {
@@ -20,23 +21,29 @@ namespace AgendaContatos.Back.services.Users
 
         public async Task<string> AuthUser(User user)
         {
+            var hash = new Hash(SHA512.Create());
             try
             {
                 User activeUser = await _dbcontext.Users.Where(u => u.UserName == user.UserName).FirstOrDefaultAsync();
 
                 if (activeUser == null) return "userNotFound";                
-                // agora é necessário checar a senha do usuário. Porém a criação de senha encriptada ainda necessita ser criada;
 
-                // gera token 
+                string token;
 
-                var token = _tokenService.GenerateToken(activeUser);
-                
-
-                return JsonSerializer.Serialize(new
+                if (hash.VerifyPassword(user.Password, activeUser.Password))
                 {
-                    user = activeUser,
-                    token = token,
-                });
+                    token = _tokenService.GenerateToken(activeUser);
+                    return JsonSerializer.Serialize(new
+                    {
+                        user = new { userName = activeUser.UserName, email = activeUser.Email },
+                        token,
+                    });
+                }
+                else
+                {
+                    return "InvalidUser";
+                }
+               
             }
 
             catch (Exception ex)
