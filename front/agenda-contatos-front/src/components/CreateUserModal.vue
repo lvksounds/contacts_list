@@ -117,6 +117,7 @@ export default {
   props: {
     modalClick: Boolean,
   },
+
   data() {
     return {
       modalinfo: null,
@@ -130,6 +131,8 @@ export default {
       newPasswordValidate: "",
       isWrong: false,
       isCorrect: false,
+      successMessage: "Usuário criado com sucesso!",
+      isCreated: false,
     };
   },
   methods: {
@@ -137,13 +140,19 @@ export default {
       this.visible = false;
       this.$emit("modal-event", this.visible);
     },
-    createNewUser() {
+    async createNewUser() {
       try {
         let resData = null;
-        const response = axiosInstance
+        const response = await axiosInstance
           .post("/create-user", this.newUser)
-          .then((data) => (resData = data))
-          .then(console.log(resData));
+          .then((data) => (resData = data));
+
+        if ((resData.data = "UserCreated")) {
+          this.isCreated = true;
+          this.$emit("success-message", this.successMessage, this.isCreated);
+          this.visible = false;
+          this.$emit("modal-event", this.visible);
+        }
       } catch (error) {
         console.log(error);
       }

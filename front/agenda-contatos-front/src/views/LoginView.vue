@@ -70,11 +70,19 @@
     v-if="modalClick"
     :modalClick="modalClick"
     @modal-event="getModalState"
+    @success-message="getCreatedUserInfo"
   ></create-user-modal>
+
+  <SuccessModal
+    v-if="createdNewUser"
+    :has-message="createdNewUser"
+    :message="successMessage"
+  ></SuccessModal>
 </template>
 
 <script>
 import CreateUserModal from "@/components/CreateUserModal.vue";
+import SuccessModal from "@/components/SuccessModal.vue";
 import axiosInstance from "@/services/api";
 
 import { mapStores } from "pinia";
@@ -101,6 +109,7 @@ export const useAuthStore = defineStore("auth", {
 export default {
   components: {
     CreateUserModal,
+    SuccessModal,
   },
   computed: {
     ...mapStores(useAuthStore),
@@ -112,6 +121,8 @@ export default {
         username: "",
         password: "",
       },
+      createdNewUser: false,
+      successMessage: "",
     };
   },
   methods: {
@@ -129,6 +140,10 @@ export default {
       } catch (error) {
         console.log(error?.response?.data);
       }
+    },
+    getCreatedUserInfo(successMessage, isCreated) {
+      this.successMessage = successMessage;
+      this.createdNewUser = isCreated;
     },
   },
 };
