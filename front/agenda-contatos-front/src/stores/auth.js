@@ -18,7 +18,8 @@ export const useAuthStore = defineStore("auth", {
 
     async checkToken() {
       try {
-        const tokenAuth = "Bearer " + this.token.value;
+        const tokenAuth = "Bearer " + this.token;
+        console.log(this.token);
         const { data } = await axiosInstance.get("/auth/verify", {
           headers: {
             Authorization: tokenAuth,

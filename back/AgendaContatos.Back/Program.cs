@@ -15,6 +15,16 @@ builder.Services.AddControllers();
 
 var key = Encoding.ASCII.GetBytes(Settings.Secret);
 
+builder.Services.AddCors(options =>
+{
+
+    options.AddPolicy("AllowVueApp", builder =>
+    {
+        builder.WithOrigins("http://localhost:8080")
+        .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+    });
+});
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -32,14 +42,6 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowVueApp", builder =>
-    {
-        builder.WithOrigins("http://localhost:8080")
-        .AllowAnyHeader().AllowAnyMethod();
-    });
-});
 
 var connectionString = builder.Configuration.GetConnectionString("DbConnection");
 builder.Services.AddDbContext<DataBaseContext>(options =>

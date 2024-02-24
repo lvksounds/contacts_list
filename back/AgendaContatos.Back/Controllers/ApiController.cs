@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 using AgendaContatos.Back.services.Users;
 using System.Reflection.Metadata.Ecma335;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AgendaContatos.Back.Controllers
@@ -40,13 +42,23 @@ namespace AgendaContatos.Back.Controllers
     
         }
 
+        [HttpGet]
+        [Route("auth/verify")]
+        [Authorize]
+        public IActionResult Verify()
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            // Verifique se o usuário está autenticado e execute a lógica necessária
+            return Ok($"Usuário autenticado: {userId}");
+        }
+
         [HttpPost("create-user")]
         public async Task<IActionResult> CreateNewUser([FromBody]User user)
         {
             if(user != null)
             {
                 var createdUser = await _newUserService.CreateNewUser(user);
-                
+                    
                 if(createdUser.Equals("UserCreated"))
                 {
                     return Ok(createdUser);
@@ -56,6 +68,6 @@ namespace AgendaContatos.Back.Controllers
             return Unauthorized("error");
 
         }
-        
-    }
+            
+        }
 }

@@ -30,17 +30,20 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+// antes de cadea rota, os metodos abaixo serao executados:
+
+router.beforeEach(async (to, from, next) => {
   if (to.meta?.auth) {
     const auth = useAuthStore();
 
     if (auth.token && auth.user) {
-      const isAuthenticated = auth.checkToken();
+      const isAuthenticated = await auth.checkToken();
       if (isAuthenticated) {
         next();
+      } else {
+        next(to.name === "login");
       }
     } else {
-      next(to.name === "login");
     }
   } else {
     next();
