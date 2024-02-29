@@ -5470,19 +5470,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lvkso\\.nuget\\packages\\": {}
+    "C:\\Users\\lucas.freitas\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lvkso\\OneDrive\\Documentos\\programação\\Projetos\\AgendaContatos\\back\\AgendaContatos.Back\\AgendaContatos.Back.csproj",
+      "projectUniqueName": "C:\\Users\\lucas.freitas\\Documents\\projetos\\pessoal\\contacts_list\\back\\AgendaContatos.Back\\AgendaContatos.Back.csproj",
       "projectName": "AgendaContatos.Back",
-      "projectPath": "C:\\Users\\lvkso\\OneDrive\\Documentos\\programação\\Projetos\\AgendaContatos\\back\\AgendaContatos.Back\\AgendaContatos.Back.csproj",
-      "packagesPath": "C:\\Users\\lvkso\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lvkso\\OneDrive\\Documentos\\programação\\Projetos\\AgendaContatos\\back\\AgendaContatos.Back\\obj\\",
+      "projectPath": "C:\\Users\\lucas.freitas\\Documents\\projetos\\pessoal\\contacts_list\\back\\AgendaContatos.Back\\AgendaContatos.Back.csproj",
+      "packagesPath": "C:\\Users\\lucas.freitas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lucas.freitas\\Documents\\projetos\\pessoal\\contacts_list\\back\\AgendaContatos.Back\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\lvkso\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lucas.freitas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5552,6 +5557,24 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.27, 6.0.27]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[6.0.27, 6.0.27]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.27, 6.0.27]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.27, 6.0.27]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -5560,7 +5583,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.406\\RuntimeIdentifierGraph.json"
       }
     }
   }

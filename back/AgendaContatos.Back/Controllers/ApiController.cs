@@ -7,6 +7,9 @@ using AgendaContatos.Back.services.Users;
 using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AgendaContatos.Back.Controllers
@@ -47,9 +50,13 @@ namespace AgendaContatos.Back.Controllers
         [Authorize]
         public IActionResult Verify()
         {
-            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            // Verifique se o usuário está autenticado e execute a lógica necessária
-            return Ok($"Usuário autenticado: {userId}");
+            string authorization = HttpContext.Request.Headers.Authorization;
+
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(authorization.Replace("Bearer ", ""));
+            var user = token.Claims.First();
+
+            return Ok($"Usuário autenticado: {user.Value}");
         }
 
         [HttpPost("create-user")]

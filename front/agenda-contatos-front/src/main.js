@@ -17,10 +17,9 @@ import "primevue/resources/themes/lara-light-blue/theme.css";
 const pinia = createPinia();
 const app = createApp(App);
 
-app.use(router);
-
-app.use(PrimeVue);
 app.use(pinia);
+app.use(router);
+app.use(PrimeVue);
 
 app.component("InputText", InputText);
 app.component("Divider", Divider);

@@ -4,7 +4,10 @@ using AgendaContatos.Back.services;
 using AgendaContatos.Back.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 namespace AgendaContatos.Back.services.Users
 {
@@ -52,5 +55,15 @@ namespace AgendaContatos.Back.services.Users
             }
             
         }
+
+        //public async Task<string> Verify(string authToken)
+        //{
+        //    var token = authToken.Replace("Bearer ", "");
+        //    byte[] key = Encoding.ASCII.GetBytes(Settings.Secret);
+
+        //    var tokenHandler = new JwtSecurityTokenHandler();
+
+        //    tokenHandler.
+        //}
     }
 }

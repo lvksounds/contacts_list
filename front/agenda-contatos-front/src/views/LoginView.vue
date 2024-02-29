@@ -1,4 +1,4 @@
-<template>
+<template v-if="!authStore.isAuthenticated">
   <Card class="w-6 m-auto mt-7">
     <template #title>LOGIN</template>
     <template #content>
@@ -101,8 +101,8 @@ export default {
     return {
       modalClick: false,
       User: {
-        username: "",
-        password: "",
+        username: "".trim(),
+        password: "".trim(),
       },
       createdNewUser: false,
       successMessage: "",
@@ -117,9 +117,11 @@ export default {
     },
     async Login() {
       try {
+        let resStatus = null;
         const { data } = await axiosInstance.post(`/auth`, this.User);
         this.authStore.setToken(data.token);
         this.authStore.setUser(JSON.stringify(data.user));
+        this.$router.push("/home");
       } catch (error) {
         console.log(error?.response?.data);
       }
