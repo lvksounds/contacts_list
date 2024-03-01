@@ -1,37 +1,43 @@
 import { defineStore } from "pinia";
 import axiosInstance from "@/services/api";
-
-import { computed } from "vue";
+import { useLocalStorage } from "@vueuse/core";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    token: localStorage.getItem("token"),
-    user: JSON.parse(localStorage.getItem("user")),
+    auth: useLocalStorage("auth", {
+      isAuthenticated: false,
+      user: {},
+      token: "",
+    }),
   }),
 
   getters: {
     userName(state) {
-      return state.user.userName;
+      return state.auth.user.userName;
     },
-
     isAuthenticated(state) {
-      return state.token && state.user;
+      return state.auth.isAuthenticated;
     },
   },
 
   actions: {
-    setToken(tokenValue) {
-      localStorage.setItem("token", tokenValue);
-      this.token = tokenValue;
-    },
-    setUser(userValue) {
-      localStorage.setItem("user", userValue);
-      this.user = userValue;
+    async login(user) {
+      try {
+        const { data } = await axiosInstance.post(`/auth`, user);
+
+        this.auth = {
+          isAuthenticated: true,
+          user: data.user,
+          token: data.token,
+        };
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     async checkToken() {
       try {
-        const tokenAuth = "Bearer " + this.token;
+        const tokenAuth = "Bearer " + this.auth.token;
         const { data } = await axiosInstance.get("/auth/verify", {
           headers: {
             Authorization: tokenAuth,
@@ -39,16 +45,18 @@ export const useAuthStore = defineStore("auth", {
         });
         return data;
       } catch (error) {
-        console.log(error.response.data);
+        console.log(error);
       }
     },
 
     clear() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      localStorage.removeItem("auth");
 
-      this.token = "";
-      this.user = "";
+      this.auth = {
+        isAuthenticated: false,
+        user: {},
+        token: "",
+      };
     },
   },
 });

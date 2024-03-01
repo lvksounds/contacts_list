@@ -117,10 +117,7 @@ export default {
     },
     async Login() {
       try {
-        let resStatus = null;
-        const { data } = await axiosInstance.post(`/auth`, this.User);
-        this.authStore.setToken(data.token);
-        this.authStore.setUser(JSON.stringify(data.user));
+        await this.authStore.login(this.User);
         this.$router.push("/home");
       } catch (error) {
         console.log(error?.response?.data);
