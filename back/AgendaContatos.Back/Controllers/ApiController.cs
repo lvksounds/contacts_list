@@ -38,7 +38,7 @@ namespace AgendaContatos.Back.Controllers
              
             if(authenticatedUser.Equals("InvalidUser"))
             {
-                return BadRequest(new { message = "Usuário Invalido" });
+                return Unauthorized(new { message = "Usuário ou senha incorretos." });
             }           
             
             return Ok(authenticatedUser);
