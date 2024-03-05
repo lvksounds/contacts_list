@@ -1,12 +1,16 @@
 <template>
-  <nav>
-    <nav class="flex flex-row align-items-center">
-      <router-link class="col-1" :to="{ name: 'login' }">Login</router-link>
+  <div class="nav">
+    <div class="flex flex-row align-items-center">
+      <router-link class="col-1 text-center" :to="{ name: 'login' }"
+        >Login</router-link
+      >
       |
-      <router-link class="col-1" :to="{ name: 'home' }">Home</router-link>
+      <router-link class="col-1 text-center" :to="{ name: 'home' }"
+        >Home</router-link
+      >
       <template v-if="authStore.isAuthenticated">
         <div
-          class="align-self-end col-10 flex flex-row justify-content-end align-items-center"
+          class="align-self-end col-10 flex flex-row justify-content-end align-items-center border border-damger"
         >
           <div class="flex flex-row gap-2 align-items-center">
             <p class="p-0 m-0">Olá {{ authStore.userName }}</p>
@@ -23,8 +27,8 @@
           Olá Visitante
         </div>
       </template>
-    </nav>
-  </nav>
+    </div>
+  </div>
   <router-view />
 </template>
 
@@ -43,17 +47,17 @@ function logout() {
 </script>
 
 <style>
-nav {
+.nav {
   padding: 30px;
 }
 
-nav a {
+.nav a {
   margin: 3px;
   font-weight: bold;
   color: #2c3e50;
 }
 
-nav a.router-link-exact-active {
+.nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>

@@ -9,6 +9,8 @@ export const useAuthStore = defineStore("auth", {
       user: {},
       token: "",
     }),
+    hasError: false,
+    error: "",
   }),
 
   getters: {
@@ -18,20 +20,28 @@ export const useAuthStore = defineStore("auth", {
     isAuthenticated(state) {
       return state.auth.isAuthenticated;
     },
+    isNoTAuthenticated(state) {
+      return state.hasError;
+    },
+    errorMessage(state) {
+      return state.error;
+    },
   },
 
   actions: {
     async login(user) {
       try {
         const { data } = await axiosInstance.post(`/auth`, user);
-
         this.auth = {
           isAuthenticated: true,
           user: data.user,
           token: data.token,
         };
+        this.hasError = false;
       } catch (error) {
-        console.log(error);
+        const res = error.response.data;
+        this.hasError = true;
+        this.error = res.message;
       }
     },
 

@@ -1,5 +1,5 @@
 <template v-if="!authStore.isAuthenticated">
-  <Card class="w-6 m-auto mt-7">
+  <Card class="w-10 m-auto mt-7">
     <template #title>LOGIN</template>
     <template #content>
       <div class="card">
@@ -30,19 +30,17 @@
                 v-model="User.password"
               />
             </div>
+            <Message v-if="authStore.hasError" severity="error" class="p-0"
+              >Usuário ou senha incorretos.</Message
+            >
             <Button
               type="submit"
               label="Login"
               icon="pi pi-user"
               class="w-10rem mx-auto"
             ></Button>
-            <!-- <Button
-              @click="loginTest"
-              label="teste"
-              icon="pi pi-user"
-              class="w-10rem mx-auto"
-            ></Button> -->
           </form>
+
           <div class="w-full md:w-2">
             <Divider layout="vertical" class="hidden md:flex"
               ><b>OR</b></Divider
@@ -83,7 +81,6 @@
 <script>
 import CreateUserModal from "@/components/CreateUserModal.vue";
 import SuccessModal from "@/components/SuccessModal.vue";
-import axiosInstance from "@/services/api";
 
 import { useAuthStore } from "@/stores/auth";
 
@@ -118,8 +115,12 @@ export default {
     async Login() {
       try {
         await this.authStore.login(this.User);
-        this.$router.push("/home");
+
+        if (this.authStore.hasError === false) {
+          this.$router.push("/home");
+        }
       } catch (error) {
+        this.hasError = true;
         console.log(error?.response?.data);
       }
     },

@@ -29,7 +29,7 @@ namespace AgendaContatos.Back.services.Users
             {
                 User activeUser = await _dbcontext.Users.Where(u => u.UserName == user.UserName).FirstOrDefaultAsync();
 
-                if (activeUser == null) return "userNotFound";                
+                if (activeUser == null) return "InvalidLogin";                
 
                 string token;
 
@@ -44,7 +44,7 @@ namespace AgendaContatos.Back.services.Users
                 }
                 else
                 {
-                    return "InvalidUser";
+                    return "InvalidLogin";
                 }
                
             }
