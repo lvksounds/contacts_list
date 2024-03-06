@@ -33,20 +33,18 @@ namespace AgendaContatos.Back.services.Users
 
                 string token;
 
-                if (hash.VerifyPassword(user.Password, activeUser.Password))
+                if (!hash.VerifyPassword(user.Password, activeUser.Password))
                 {
-                    token = _tokenService.GenerateToken(activeUser);
-                    return JsonSerializer.Serialize(new
-                    {
-                        user = new { userName = activeUser.UserName, email = activeUser.Email },
-                        token,
-                    });
+                    return "InvalidLogin"; 
                 }
-                else
+
+                token = _tokenService.GenerateToken(activeUser);
+                return JsonSerializer.Serialize(new
                 {
-                    return "InvalidLogin";
-                }
-               
+                    user = new { userName = activeUser.UserName, email = activeUser.Email, id = activeUser.UserId },
+                    token,
+                });
+
             }
 
             catch (Exception ex)
@@ -55,15 +53,5 @@ namespace AgendaContatos.Back.services.Users
             }
             
         }
-
-        //public async Task<string> Verify(string authToken)
-        //{
-        //    var token = authToken.Replace("Bearer ", "");
-        //    byte[] key = Encoding.ASCII.GetBytes(Settings.Secret);
-
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-
-        //    tokenHandler.
-        //}
     }
 }

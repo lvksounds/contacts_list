@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using AgendaContatos.Back.services.Contacts;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AgendaContatos.Back.Controllers
@@ -19,12 +20,14 @@ namespace AgendaContatos.Back.Controllers
     public class ApiController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly INewUserService _newUserService;
+        private readonly IUserService _userService;
+        private readonly IContactsService _contactsService;
 
-        public ApiController(IAuthService authService, INewUserService NewUserService)
+        public ApiController(IAuthService authService, IUserService UserService, IContactsService contactsService)
         {
             _authService = authService;
-            _newUserService = NewUserService;
+            _userService = UserService;
+            _contactsService = contactsService;
         }
 
         [HttpPost("auth")]
@@ -50,21 +53,18 @@ namespace AgendaContatos.Back.Controllers
         [Authorize]
         public IActionResult Verify()
         {
-            string authorization = HttpContext.Request.Headers.Authorization;
+            var tokenParams = GetJwtParemeters();
 
-            var handler = new JwtSecurityTokenHandler();
-            var token = handler.ReadJwtToken(authorization.Replace("Bearer ", ""));
-            var user = token.Claims.First();
-
-            return Ok($"Usuário autenticado: {user.Value}");
+            return Ok($"Usuário autenticado {tokenParams.Name}");
         }
 
+        [Authorize]
         [HttpPost("create-user")]
         public async Task<IActionResult> CreateNewUser([FromBody]User user)
         {
             if(user != null)
             {
-                var createdUser = await _newUserService.CreateNewUser(user);
+                var createdUser = await _userService.CreateNewUser(user);
                     
                 if(createdUser.Equals("UserCreated"))
                 {
@@ -72,9 +72,43 @@ namespace AgendaContatos.Back.Controllers
                 }
 
             }
-            return Unauthorized("error");
+            return BadRequest("Erro ao criar usuário");
 
         }
-            
+
+        [Authorize]
+        [HttpPost("create-contact")]
+        public async Task<IActionResult> CreateNewContact([FromBody] Contact contact)
+        {
+            if (contact != null)
+            {
+                var newContact = await _contactsService.CreateContact(contact, GetJwtParemeters().id);
+                
+                if (newContact.Equals("ContactCreated"))
+                {
+                    return Ok(newContact);
+                }
+            }
+            return Unauthorized("error");
         }
+
+        private dynamic GetJwtParemeters()
+        {
+            string authorization = HttpContext.Request.Headers.Authorization;
+
+            var handler = new JwtSecurityTokenHandler();
+            var token = handler.ReadJwtToken(authorization.Replace("Bearer ", "")).Claims.ToList();
+
+            var tokenParams = new 
+            { 
+                userName = token[0].Value, 
+                id = token[1].Value,
+                email = token[2].Value, 
+            };
+
+            return tokenParams;
+        }
+
+
+    }
 }

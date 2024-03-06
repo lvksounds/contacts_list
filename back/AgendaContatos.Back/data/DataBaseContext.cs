@@ -7,12 +7,7 @@ namespace AgendaContatos.Back.data
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
         
         public DbSet<Models.User> Users { get; set; }
+        public DbSet<Models.Contact> Contacts { get; set; }
 
-
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlite("Data Source=app.db");
-        //}
     }
 }

@@ -17,6 +17,9 @@ export const useAuthStore = defineStore("auth", {
     userName(state) {
       return state.auth.user.userName;
     },
+    userId(state) {
+      return state.auth.user.id;
+    },
     isAuthenticated(state) {
       return state.auth.isAuthenticated;
     },
@@ -32,6 +35,7 @@ export const useAuthStore = defineStore("auth", {
     async login(user) {
       try {
         const { data } = await axiosInstance.post(`/auth`, user);
+        console.log(data);
         this.auth = {
           isAuthenticated: true,
           user: data.user,

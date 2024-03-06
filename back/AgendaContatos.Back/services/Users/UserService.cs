@@ -7,11 +7,11 @@ using System.Security.Cryptography;
 
 namespace AgendaContatos.Back.services.Users
 {
-    public class NewUserService : INewUserService
+    public class UserService : IUserService
     {
         private readonly DataBaseContext _dataBaseContext;
 
-        public NewUserService(DataBaseContext dataBaseContext)
+        public UserService(DataBaseContext dataBaseContext)
         {
             _dataBaseContext = dataBaseContext;
         }
@@ -30,10 +30,18 @@ namespace AgendaContatos.Back.services.Users
             var passwordHash = hash.EncriptyPassword(user.Password);
             NewUser.Password = passwordHash;
             
-            _dataBaseContext.Users.Add(NewUser);
-            _dataBaseContext.SaveChanges();
+            try
+            {
+                await _dataBaseContext.Users.AddAsync(NewUser);
+                await _dataBaseContext.SaveChangesAsync();
+                return "UserCreated";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            
 
-            return "UserCreated";
             
             
         }

@@ -1,5 +1,6 @@
 using AgendaContatos.Back;
 using AgendaContatos.Back.data;
+using AgendaContatos.Back.services.Contacts;
 using AgendaContatos.Back.services.Users;
 using AgendaContatos.Back.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -50,8 +51,9 @@ builder.Services.AddDbContext<DataBaseContext>(options =>
 });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<INewUserService, NewUserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IContactsService, ContactsService>();
 
 var app = builder.Build();
 

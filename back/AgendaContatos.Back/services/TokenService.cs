@@ -19,6 +19,8 @@ namespace AgendaContatos.Back.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Sid, user.UserId),
+                    new Claim(ClaimTypes.Email, user.Email) 
 
                 }),
                 Expires = DateTime.UtcNow.AddHours(8),
