@@ -34,7 +34,6 @@
 
 <script setup>
 import { useAuthStore } from "@/stores/auth";
-import { computed, watch, onMounted, onBeforeUpdate } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();

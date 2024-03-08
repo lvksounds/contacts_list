@@ -39,10 +39,8 @@ namespace AgendaContatos.Back.Controllers
             
             authenticatedUser = await _authService.AuthUser(user);
              
-            if(authenticatedUser.Equals("InvalidLogin"))
-            {
-                return Unauthorized(new { message = "Usuário ou senha incorretos." });
-            }           
+            if(authenticatedUser.Equals("InvalidLogin")) return Unauthorized(new { message = "Usuário ou senha incorretos." });
+                       
             
             return Ok(authenticatedUser);
     
@@ -55,7 +53,7 @@ namespace AgendaContatos.Back.Controllers
         {
             var tokenParams = GetJwtParemeters();
 
-            return Ok($"Usuário autenticado {tokenParams.Name}");
+            return Ok($"Usuário autenticado {tokenParams.userName}");
         }
 
         [Authorize]
@@ -66,10 +64,8 @@ namespace AgendaContatos.Back.Controllers
             {
                 var createdUser = await _userService.CreateNewUser(user);
                     
-                if(createdUser.Equals("UserCreated"))
-                {
-                    return Ok(createdUser);
-                }
+                if(createdUser.Equals("UserCreated")) return Ok(createdUser);
+                
 
             }
             return BadRequest("Erro ao criar usuário");
@@ -84,10 +80,23 @@ namespace AgendaContatos.Back.Controllers
             {
                 var newContact = await _contactsService.CreateContact(contact, GetJwtParemeters().id);
                 
-                if (newContact.Equals("ContactCreated"))
-                {
-                    return Ok(newContact);
-                }
+                if (newContact.Equals("ContactCreated")) return Ok(newContact);
+                
+            }
+            return Unauthorized("error");
+        }
+
+        [Authorize]
+        [HttpGet("get-user-contacts")]        
+        public async Task<IActionResult> GetUserContacts()
+        {
+            var userId = GetJwtParemeters().id;
+
+            if (!userId.Equals(null))
+            {
+                var userContacts = await _contactsService.GetUserContacts(userId);
+                if (userContacts.Count > 0) return Ok(userContacts);
+                
             }
             return Unauthorized("error");
         }
