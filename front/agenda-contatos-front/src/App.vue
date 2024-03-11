@@ -57,6 +57,6 @@ function logout() {
 }
 
 .nav a.router-link-exact-active {
-  color: #42b983;
+  color: #3b82f6;
 }
 </style>

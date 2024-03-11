@@ -16,6 +16,7 @@
         public string? Email { get; set; }
         public string Phone { get; set; }
         public byte[]? profileImg { get; set; }
+        public bool? isFavorite { get; set; }
 
     }
 }

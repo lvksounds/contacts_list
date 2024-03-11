@@ -13,6 +13,7 @@ import Button from "primevue/button";
 import Card from "primevue/card";
 import Dialog from "primevue/dialog";
 import Message from "primevue/message";
+import Avatar from "primevue/avatar";
 
 import "primevue/resources/themes/lara-light-blue/theme.css";
 
@@ -29,5 +30,6 @@ app.component("Button", Button);
 app.component("Card", Card);
 app.component("Modal", Dialog);
 app.component("Message", Message);
+app.component("Avatar", Avatar);
 
 app.mount("#app");
