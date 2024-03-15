@@ -18,39 +18,52 @@
       </Button>
     </div>
   </div>
+
+  <create-contact-modal
+    v-if="createContactModal"
+    :openModal="createContactModal"
+    @close-modal="getModalState"
+  ></create-contact-modal>
 </template>
 
 <script>
-import axiosInstance from "../services/api";
 import { useAuthStore } from "@/stores/auth";
 import { mapStores } from "pinia";
-import { computed } from "vue";
-
+import CreateContactModal from "./CreateContactModal.vue";
 export default {
+  emits: ["input-sender"],
+  components: {
+    CreateContactModal,
+  },
   computed: {
     ...mapStores(useAuthStore),
   },
   data() {
     return {
+      createContactModal: false,
       valorInput: "",
     };
   },
   methods: {
     createNewContact() {
-      const contact = {
-        userId: this.authStore.userId,
-        name: "Lucas Oliveira",
-        phone: "999412841",
-        isFavorite: false,
-      };
-      const { data } = axiosInstance.post("/create-contact", contact, {
-        headers: {
-          Authorization: `Bearer ${this.authStore.auth.token}`,
-        },
-      });
+      this.createContactModal = true;
+      // const contact = {
+      //   userId: this.authStore.userId,
+      //   name: "Lucas Oliveira",
+      //   phone: "999412841",
+      //   isFavorite: false,
+      // };
+      // const { data } = axiosInstance.post("/create-contact", contact, {
+      //   headers: {
+      //     Authorization: `Bearer ${this.authStore.auth.token}`,
+      //   },
+      // });
     },
     sendValue(value) {
       this.$emit("input-sender", value.target.value);
+    },
+    getModalState(btnInfo) {
+      this.createContactModal = btnInfo;
     },
   },
 };

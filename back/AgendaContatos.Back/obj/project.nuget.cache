@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kXq74tAcAO0Cpl06728U7uogVINhUSdepyFCHb9xXa3IeNLlYjL1Rs//uah9dfbulCE72ooJS/HvJt8nYMtfSA==",
+  "dgSpecHash": "KTODWjoKeY5qntusxvaFxZQrpUC2iC+T+geg3sIOECFfuEF5tyzzCVir5ediym2blpFpbL6KSyRA4+qi9ve2Jw==",
   "success": true,
   "projectFilePath": "C:\\Users\\lucas.freitas\\Documents\\projetos\\pessoal\\contacts_list\\back\\AgendaContatos.Back\\AgendaContatos.Back.csproj",
   "expectedPackageFiles": [
@@ -116,10 +116,10 @@
     "C:\\Users\\lucas.freitas\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
     "C:\\Users\\lucas.freitas\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
     "C:\\Users\\lucas.freitas\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
-    "C:\\Users\\lucas.freitas\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.27\\microsoft.windowsdesktop.app.ref.6.0.27.nupkg.sha512",
-    "C:\\Users\\lucas.freitas\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.27\\microsoft.netcore.app.ref.6.0.27.nupkg.sha512",
-    "C:\\Users\\lucas.freitas\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.27\\microsoft.aspnetcore.app.ref.6.0.27.nupkg.sha512",
-    "C:\\Users\\lucas.freitas\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.27\\microsoft.netcore.app.host.win-x64.6.0.27.nupkg.sha512"
+    "C:\\Users\\lucas.freitas\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.28\\microsoft.windowsdesktop.app.ref.6.0.28.nupkg.sha512",
+    "C:\\Users\\lucas.freitas\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.28\\microsoft.netcore.app.ref.6.0.28.nupkg.sha512",
+    "C:\\Users\\lucas.freitas\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.28\\microsoft.aspnetcore.app.ref.6.0.28.nupkg.sha512",
+    "C:\\Users\\lucas.freitas\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.28\\microsoft.netcore.app.host.win-x64.6.0.28.nupkg.sha512"
   ],
   "logs": []
 }
