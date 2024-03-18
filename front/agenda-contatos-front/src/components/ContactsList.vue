@@ -14,9 +14,10 @@
             >
               <div class="md:w-4rem relative">
                 <Avatar
-                  :label="item.name.substring(0, 1)"
-                  class=" "
+                  :label="item.profileImg ? null : item.name.substring(0, 1)"
+                  :image="item.profileImg ? item.profileImg : null"
                   size="xlarge"
+                  shape="circle"
                 />
               </div>
               <div

@@ -111,6 +111,7 @@ export default {
     },
     async saveNewContact() {
       //this.visible = false
+      console.log(this.contact.profileImg.split(",")[0]);
       console.log(this.contact.profileImg.split(",")[1]);
       const formData = new FormData();
       formData.append("name", this.contact.name);

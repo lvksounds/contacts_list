@@ -23,6 +23,10 @@ namespace AgendaContatos.Back.services.Contacts
             try
             {
                 var contacts = _dataBaseContext.Contacts.Where(u => u.UserId == user.UserId).ToList();
+                foreach (var contact in contacts)
+                {
+                    if(contact.profileImgBytes != null) contact.profileImg = "data:image/jpeg;base64," + Convert.ToBase64String(contact.profileImgBytes);
+                }
                 user.UserContacts = contacts;
 
                 return user.UserContacts;
