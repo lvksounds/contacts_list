@@ -30,6 +30,7 @@
 import { useAuthStore } from "@/stores/auth";
 import { mapStores } from "pinia";
 import CreateContactModal from "./CreateContactModal.vue";
+
 export default {
   emits: ["input-sender"],
   components: {
@@ -47,17 +48,6 @@ export default {
   methods: {
     createNewContact() {
       this.createContactModal = true;
-      // const contact = {
-      //   userId: this.authStore.userId,
-      //   name: "Lucas Oliveira",
-      //   phone: "999412841",
-      //   isFavorite: false,
-      // };
-      // const { data } = axiosInstance.post("/create-contact", contact, {
-      //   headers: {
-      //     Authorization: `Bearer ${this.authStore.auth.token}`,
-      //   },
-      // });
     },
     sendValue(value) {
       this.$emit("input-sender", value.target.value);

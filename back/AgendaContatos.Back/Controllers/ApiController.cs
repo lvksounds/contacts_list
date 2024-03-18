@@ -74,7 +74,7 @@ namespace AgendaContatos.Back.Controllers
 
         [Authorize]
         [HttpPost("create-contact")]
-        public async Task<IActionResult> CreateNewContact([FromBody] Contact contact)
+        public async Task<IActionResult> CreateNewContact([FromForm] Contact contact)
         {
             if (contact != null)
             {

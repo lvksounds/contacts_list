@@ -1,4 +1,5 @@
 ﻿using AgendaContatos.Back.data;
+using AgendaContatos.Back.helpers;
 using AgendaContatos.Back.Models;
 
 namespace AgendaContatos.Back.services.Contacts
@@ -42,8 +43,14 @@ namespace AgendaContatos.Back.services.Contacts
             Contact newContact = contact;
             newContact.ContactId = GetNewContactId();
             newContact.UserId = userId;
-
-            // fazer tratamento da imagem de perfil
+            try
+            {
+                byte[] imageBytes = Base64Converter.ConvertFromBase64(contact.profileImg);
+                newContact.profileImgBytes = imageBytes;
+                newContact.profileImg = null;
+            }
+            catch (Exception ex) { return ex.Message; };
+           
 
             try
             {
