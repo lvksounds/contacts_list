@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using AgendaContatos.Back.services.Contacts;
+using System.Runtime.CompilerServices;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AgendaContatos.Back.Controllers
@@ -95,10 +96,25 @@ namespace AgendaContatos.Back.Controllers
             if (!userId.Equals(null))
             {
                 var userContacts = await _contactsService.GetUserContacts(userId);
-                if (userContacts.Count > 0) return Ok(userContacts);
+                if (userContacts.Count >= 0) return Ok(userContacts);
                 
             }
             return Unauthorized("error");
+        }
+
+        [Authorize]
+        [HttpDelete("delete-contact")]
+        public async Task<IActionResult> DeleteContact([FromQuery] string contactId, [FromQuery] string userId)
+        {
+            try
+            {
+               await _contactsService.DeleteContact(contactId, userId);
+                return Ok("UserDeleted");
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(ex.Message);
+            }
         }
 
         private dynamic GetJwtParemeters()

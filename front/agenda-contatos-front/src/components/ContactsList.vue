@@ -1,6 +1,9 @@
 <template>
   <div class="card">
     <DataView :value="filteredContacts">
+      <template #empty="slotProps">
+        <p>{{ (slotProps.layout = "Your contact list is empty.") }}</p>
+      </template>
       <template #list="slotProps">
         <div class="grid grid-nogutter">
           <div
@@ -12,12 +15,13 @@
               class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3"
               :class="{ 'border-top-1 surface-border': index !== 0 }"
             >
-              <div class="md:w-4rem relative">
+              <div class="md:w-4rem relative align-items-center">
                 <Avatar
                   :label="item.profileImg ? null : item.name.substring(0, 1)"
                   :image="item.profileImg ? item.profileImg : null"
                   size="xlarge"
                   shape="circle"
+                  class="flex align-itens-center"
                 />
               </div>
               <div
@@ -32,6 +36,9 @@
                     }}</span>
                     <div class="text-lg font-medium text-900 mt-2">
                       {{ item.phone }}
+                    </div>
+                    <div class="font-medium text-sm mt-2">
+                      {{ item.email }}
                     </div>
                   </div>
                   <div
@@ -53,7 +60,17 @@
                 </div>
                 <div class="flex flex-column md:align-items-end gap-5">
                   <div class="flex flex-row-reverse md:flex-row gap-2">
-                    <Button icon="pi pi-heart" outlined></Button>
+                    <Button
+                      icon="pi pi-trash"
+                      severity="danger"
+                      aria-label="delete"
+                      @click="deleteContact(item.contactId, item.userId)"
+                    />
+                    <Button
+                      icon="pi pi-heart"
+                      outlined
+                      severity="success"
+                    ></Button>
                     <Button
                       icon="pi pi-pencil"
                       label="Edit"
@@ -73,17 +90,18 @@
 <script>
 import DataView from "primevue/dataview";
 
-import getContacts from "@/services/contactsService";
+import { deleteContact, getContacts } from "@/services/contactsService";
 
 export default {
   components: {
     DataView,
   },
-  props: ["nameInput"],
+  props: ["nameInput", "hasNewContact"],
   data() {
     return {
       contacts: [],
       filterValue: "",
+      emptyListMessage: "Your contact list is empty.",
       loaded: false,
     };
   },
@@ -95,8 +113,16 @@ export default {
         ) || []
       );
     },
+    async atualizedContacts() {
+      await this.fetchContacts();
+    },
   },
   watch: {
+    hasNewContact(value) {
+      if (value) {
+        return this.fetchContacts();
+      }
+    },
     nameInput(value) {
       this.filterValue = value ? value : "";
     },
@@ -105,11 +131,16 @@ export default {
     },
   },
   async created() {
-    this.contacts = await this.fetchContacts();
+    await this.fetchContacts();
   },
   methods: {
     async fetchContacts() {
-      return await getContacts();
+      this.contacts = await getContacts();
+    },
+    async deleteContact(contactId, userId) {
+      return await deleteContact(contactId, userId).then((req) => {
+        console.log(req);
+      });
     },
   },
 };

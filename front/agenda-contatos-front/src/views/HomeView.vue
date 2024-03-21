@@ -5,11 +5,15 @@
       <div>
         <contacts-search-vue
           @input-sender="getSearchValue"
+          @contact-creation-event="getContactCreationEvent"
         ></contacts-search-vue>
       </div>
       <Divider></Divider>
       <div>
-        <contacts-list-vue :nameInput="inputValue"></contacts-list-vue>
+        <contacts-list-vue
+          :nameInput="inputValue"
+          :hasNewContact="hasNewContact"
+        ></contacts-list-vue>
       </div>
     </template>
   </Card>
@@ -26,6 +30,7 @@ export default {
   data() {
     return {
       inputValue: "",
+      hasNewContact: null,
     };
   },
   components: {
@@ -38,6 +43,9 @@ export default {
   methods: {
     getSearchValue(value) {
       this.inputValue = value;
+    },
+    getContactCreationEvent(value) {
+      this.hasNewContact = value;
     },
   },
 };

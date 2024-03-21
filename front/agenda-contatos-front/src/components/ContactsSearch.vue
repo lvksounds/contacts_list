@@ -23,18 +23,22 @@
     v-if="createContactModal"
     :openModal="createContactModal"
     @close-modal="getModalState"
+    @create-contact-event="handleNewContactCreation"
   ></create-contact-modal>
+  <Toast />
 </template>
 
 <script>
 import { useAuthStore } from "@/stores/auth";
 import { mapStores } from "pinia";
+import Toast from "primevue/toast";
 import CreateContactModal from "./CreateContactModal.vue";
 
 export default {
-  emits: ["input-sender"],
+  emits: ["input-sender", "contact-creation-event"],
   components: {
     CreateContactModal,
+    Toast,
   },
   computed: {
     ...mapStores(useAuthStore),
@@ -54,6 +58,15 @@ export default {
     },
     getModalState(btnInfo) {
       this.createContactModal = btnInfo;
+    },
+    handleNewContactCreation(messageData) {
+      this.$toast.add({
+        severity: "info",
+        summary: "Success!",
+        detail: messageData.message,
+        life: 3000,
+      });
+      this.$emit("contact-creation-event", true);
     },
   },
 };

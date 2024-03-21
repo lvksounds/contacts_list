@@ -1,6 +1,8 @@
 ﻿using AgendaContatos.Back.data;
 using AgendaContatos.Back.helpers;
 using AgendaContatos.Back.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AgendaContatos.Back.services.Contacts
 {
@@ -49,9 +51,12 @@ namespace AgendaContatos.Back.services.Contacts
             newContact.UserId = userId;
             try
             {
-                byte[] imageBytes = Base64Converter.ConvertFromBase64(contact.profileImg);
-                newContact.profileImgBytes = imageBytes;
-                newContact.profileImg = null;
+                if (contact.profileImg != null)
+                {
+                    byte[] imageBytes = Base64Converter.ConvertFromBase64(contact.profileImg);
+                    newContact.profileImgBytes = imageBytes;
+                    newContact.profileImg = null;
+                }
             }
             catch (Exception ex) { return ex.Message; };
            
@@ -75,14 +80,31 @@ namespace AgendaContatos.Back.services.Contacts
             return "updateContact";
         }
 
-        public async Task<string> DeleteContact(string contactId)
+        
+        public async Task<string> DeleteContact(string contactId, string userId)
         {
-            return "updateContact";
+            Contact contact = await _dataBaseContext.Contacts.FirstOrDefaultAsync(c => c.ContactId == contactId && c.UserId == userId);
+
+            if (contact != null)
+            {
+                try
+                {
+                    _dataBaseContext.Contacts.Remove(contact);
+                    await _dataBaseContext.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    return ex.Message;
+                }
+            }
+            return "ContactDeleted";
         }
 
         private string GetNewContactId()
         {
-            string id = (_dataBaseContext.Contacts.Count() + 1).ToString();
+            Random idIncrement = new Random();
+            int aleatoryNumber = idIncrement.Next(0, 100);
+            string id = (_dataBaseContext.Contacts.Count() + 1).ToString() + aleatoryNumber;
 
             return id;
         }

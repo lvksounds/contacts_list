@@ -5,6 +5,7 @@
       modal
       header="New Contact"
       :style="{ width: '35rem' }"
+      :closable="false"
     >
       <span class="p-text-secondary block mb-5">Create a new Contact</span>
       <div class="flex align-items-center gap-1 mb-5">
@@ -63,7 +64,12 @@
           severity="secondary"
           @click="closeModal"
         ></Button>
-        <Button type="button" label="Save" @click="saveNewContact"></Button>
+        <Button
+          type="button"
+          label="Save"
+          @click="saveNewContact"
+          :loading="loading"
+        ></Button>
       </div>
     </Dialog>
   </div>
@@ -74,12 +80,13 @@ import Dialog from "primevue/dialog";
 import InputMask from "primevue/inputmask";
 import Avatar from "primevue/avatar";
 import FileUpload from "primevue/fileupload";
-import axiosInstance from "@/services/api";
+
 import { mapStores } from "pinia";
 import { useAuthStore } from "@/stores/auth";
+import { createContact } from "@/services/contactsService";
 
 export default {
-  emits: ["close-modal"],
+  emits: ["close-modal", "create-contact-event"],
   components: {
     Dialog,
     InputMask,
@@ -99,6 +106,7 @@ export default {
         phone: "",
         profileImg: null,
       },
+      loading: false,
     };
   },
   computed: {
@@ -109,27 +117,27 @@ export default {
       this.visible = false;
       this.$emit("close-modal", this.visible);
     },
+
     async saveNewContact() {
-      //this.visible = false
-      console.log(this.contact.profileImg.split(",")[0]);
-      console.log(this.contact.profileImg.split(",")[1]);
+      this.loading = true;
       const formData = new FormData();
       formData.append("name", this.contact.name);
       formData.append("email", this.contact.email);
       formData.append("phone", this.contact.phone);
-      formData.append("profileImg", this.contact.profileImg.split(",")[1]);
+      if (this.contact.profileImg !== null)
+        formData.append("profileImg", this.contact.profileImg.split(",")[1]);
 
       try {
-        const { data } = await axiosInstance.post(
-          "/create-contact/",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${this.authStore.auth.token}`,
-            },
-          }
-        );
+        return await createContact(formData).then((res) => {
+          let successData = {
+            message: "New contact created successfully.",
+            hasNewContact: true,
+          };
+          this.loading = false;
+          this.visible = false;
+
+          this.$emit("create-contact-event", successData);
+        });
       } catch (error) {
         console.log(error?.response?.data);
       }
