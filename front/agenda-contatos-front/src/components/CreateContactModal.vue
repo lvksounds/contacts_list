@@ -136,6 +136,7 @@ export default {
           this.loading = false;
           this.visible = false;
 
+          this.$emit("close-modal", this.visible);
           this.$emit("create-contact-event", successData);
         });
       } catch (error) {

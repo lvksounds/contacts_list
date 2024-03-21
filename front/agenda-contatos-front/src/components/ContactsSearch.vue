@@ -66,7 +66,7 @@ export default {
         detail: messageData.message,
         life: 3000,
       });
-      this.$emit("contact-creation-event", true);
+      this.$emit("contact-creation-event", messageData.hasNewContact);
     },
   },
 };

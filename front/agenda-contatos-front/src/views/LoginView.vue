@@ -38,6 +38,7 @@
               label="Login"
               icon="pi pi-user"
               class="w-10rem mx-auto"
+              :loading="loading"
             ></Button>
           </form>
 
@@ -103,6 +104,7 @@ export default {
       },
       createdNewUser: false,
       successMessage: "",
+      loading: false,
     };
   },
   methods: {
@@ -114,10 +116,12 @@ export default {
     },
     async Login() {
       try {
+        this.loading = true;
         await this.authStore.login(this.User);
 
         if (this.authStore.hasError === false) {
           this.$router.push("/home");
+          this.loading = false;
         }
       } catch (error) {
         this.hasError = true;

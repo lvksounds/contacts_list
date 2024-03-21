@@ -46,6 +46,9 @@ export default {
     },
     getContactCreationEvent(value) {
       this.hasNewContact = value;
+      setTimeout(() => {
+        this.hasNewContact = null;
+      }, 3000);
     },
   },
 };
