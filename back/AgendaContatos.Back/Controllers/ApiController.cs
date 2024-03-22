@@ -40,7 +40,7 @@ namespace AgendaContatos.Back.Controllers
             
             authenticatedUser = await _authService.AuthUser(user);
              
-            if(authenticatedUser.Equals("InvalidLogin")) return Unauthorized(new { message = "Usuário ou senha incorretos." });
+            if(authenticatedUser.Equals("InvalidLogin")) return Unauthorized(new { message = "Incorrect user or password." });
                        
             
             return Ok(authenticatedUser);

@@ -115,17 +115,13 @@ export default {
       this.modalClick = btnInfo;
     },
     async Login() {
-      try {
-        this.loading = true;
-        await this.authStore.login(this.User);
-
-        if (this.authStore.hasError === false) {
-          this.$router.push("/home");
-          this.loading = false;
-        }
-      } catch (error) {
-        this.hasError = true;
-        console.log(error?.response?.data);
+      this.loading = true;
+      await this.authStore.login(this.User).catch((err) => {
+        this.loading = false;
+      });
+      if (!this.authStore.hasError) {
+        this.$router.push("/home");
+        this.loading = false;
       }
     },
     getCreatedUserInfo(successMessage, isCreated) {
