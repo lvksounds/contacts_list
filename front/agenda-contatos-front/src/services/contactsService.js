@@ -51,3 +51,18 @@ export const createContact = async (contact) => {
     return error;
   }
 };
+
+export const updateContact = async (contact) => {
+  try {
+    const { req } = await axiosInstance.put("/update-contact", contact, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${auth.$state.auth.token}`,
+      },
+    });
+
+    return req;
+  } catch (err) {
+    return err;
+  }
+};

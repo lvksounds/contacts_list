@@ -15,7 +15,7 @@
 
 <style>
 .p-dialog-header {
-  color: green;
+  color: #9333ea;
 }
 </style>
 

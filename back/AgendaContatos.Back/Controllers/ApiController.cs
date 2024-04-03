@@ -1,17 +1,10 @@
-﻿using AgendaContatos.Back.data;
-using AgendaContatos.Back.Models;
+﻿using AgendaContatos.Back.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text.Json;
 using AgendaContatos.Back.services.Users;
-using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using AgendaContatos.Back.services.Contacts;
-using System.Runtime.CompilerServices;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AgendaContatos.Back.Controllers
@@ -40,7 +33,7 @@ namespace AgendaContatos.Back.Controllers
             
             authenticatedUser = await _authService.AuthUser(user);
              
-            if(authenticatedUser.Equals("InvalidLogin")) return Unauthorized(new { message = "Incorrect user or password." });
+            if(authenticatedUser.Equals("InvalidLogin")) return Unauthorized(new { message = "Incorrect user or password" });
                        
             
             return Ok(authenticatedUser);
@@ -69,7 +62,7 @@ namespace AgendaContatos.Back.Controllers
                 
 
             }
-            return BadRequest("Erro ao criar usuário");
+            return BadRequest("Error on user creation");
 
         }
 
@@ -114,6 +107,21 @@ namespace AgendaContatos.Back.Controllers
             catch (Exception ex)
             {
                 return Unauthorized(ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpPut("update-contact")]
+        public async Task<IActionResult> UpdateContact([FromForm] Contact contact)
+        {
+            try
+            {
+                await _contactsService.UpdateContact(contact);
+                return Ok("ContactUpdated");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 

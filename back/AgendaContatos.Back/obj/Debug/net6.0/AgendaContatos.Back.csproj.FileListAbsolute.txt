@@ -169,7 +169,6 @@ C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaConta
 C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\obj\Debug\net6.0\scopedcss\bundle\AgendaContatos.Back.styles.css
 C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\obj\Debug\net6.0\scopedcss\projectbundle\AgendaContatos.Back.bundle.scp.css
-C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\obj\Debug\net6.0\AgendaContatos.Back.csproj.CopyComplete
 C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\obj\Debug\net6.0\AgendaContatos.Back.dll
 C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\obj\Debug\net6.0\refint\AgendaContatos.Back.dll
 C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\obj\Debug\net6.0\AgendaContatos.Back.pdb
@@ -179,3 +178,5 @@ C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaConta
 C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\bin\Debug\net6.0\Newtonsoft.Json.dll
 C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\obj\Debug\net6.0\AgendaContatos.Back.sourcelink.json
+C:\Users\lucas.freitas\Documents\projetos\pessoal\contacts_list\back\AgendaContatos.Back\obj\Debug\net6.0\AgendaCo.31A567D2.Up2Date

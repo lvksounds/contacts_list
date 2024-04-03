@@ -4,6 +4,7 @@ using AgendaContatos.Back.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace AgendaContatos.Back.services.Contacts
 {
     public class ContactsService : IContactsService
@@ -77,7 +78,31 @@ namespace AgendaContatos.Back.services.Contacts
 
         public async Task<string> UpdateContact(Contact contact)
         {
-            return "updateContact";
+            var currentContact = await _dataBaseContext.Contacts.FirstOrDefaultAsync(c => c.ContactId == contact.ContactId);
+
+            if(currentContact != null) 
+            {
+                try
+                {
+                    currentContact.Email = contact.Email;
+                    currentContact.Name = contact.Name;
+                    currentContact.Phone = contact.Phone;
+                    if (contact.profileImg != null)
+                    {
+                        byte[] imageBytes = Base64Converter.ConvertFromBase64(contact.profileImg);
+                        currentContact.profileImgBytes = imageBytes;
+                        currentContact.profileImg = null;
+                    }
+
+                    await _dataBaseContext.SaveChangesAsync();
+                    return "updateContact";
+                }
+                catch (Exception ex)
+                {
+                    return ex.Message;
+                }
+            }
+            return "ContactNotFound";
         }
 
         

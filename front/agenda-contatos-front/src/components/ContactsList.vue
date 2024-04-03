@@ -45,7 +45,7 @@
                         {{ item.email }}
                       </div>
                     </div>
-                    <div
+                    <!-- <div
                       class="surface-100 p-1"
                       style="border-radius: 30px"
                       v-if="item.isFavorite"
@@ -60,7 +60,7 @@
                       >
                         <i class="pi pi-star-fill text-yellow-500"> </i>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="flex flex-column md:align-items-end gap-5">
                     <div class="flex flex-row-reverse md:flex-row gap-2">
@@ -70,15 +70,16 @@
                         aria-label="delete"
                         @click="deleteContact(item.contactId, item.userId)"
                       />
-                      <Button
+                      <!-- <Button
                         icon="pi pi-heart"
                         outlined
                         severity="success"
-                      ></Button>
+                      ></Button> -->
                       <Button
                         icon="pi pi-pencil"
                         label="Edit"
                         class="flex-auto md:flex-initial white-space-nowrap"
+                        @click="editContact(item.contactId)"
                       ></Button>
                     </div>
                   </div>
@@ -90,18 +91,26 @@
       </DataView>
     </div>
   </ScrollPanel>
+  <edit-contact-modal-vue
+    v-if="editContactModal"
+    :openModal="editContactModal"
+    :contact="currentContact"
+    @close-modal="getModalState"
+    @update-contact-event="handleUpdateContact"
+  ></edit-contact-modal-vue>
 </template>
 
 <script>
 import DataView from "primevue/dataview";
 import ScrollPanel from "primevue/scrollpanel";
-
+import EditContactModalVue from "./EditContactModal.vue";
 import { deleteContact, getContacts } from "@/services/contactsService";
 
 export default {
   components: {
     DataView,
     ScrollPanel,
+    EditContactModalVue,
   },
   props: ["nameInput", "hasNewContact"],
   data() {
@@ -110,6 +119,8 @@ export default {
       filterValue: "",
       emptyListMessage: "Your contact list is empty.",
       loaded: false,
+      editContactModal: false,
+      currentContact: {},
     };
   },
   computed: {
@@ -149,6 +160,12 @@ export default {
     async fetchContacts() {
       this.contacts = await getContacts();
     },
+    editContact(contactId) {
+      this.editContactModal = true;
+      this.currentContact = this.contacts.find(
+        (contact) => contact.contactId === contactId
+      );
+    },
     async deleteContact(contactId, userId) {
       return await deleteContact(contactId, userId).then((req) => {
         this.$toast.add({
@@ -159,6 +176,18 @@ export default {
         });
         this.fetchContacts();
       });
+    },
+    getModalState(btnInfo) {
+      this.editContactModal = btnInfo;
+    },
+    async handleUpdateContact(messageData) {
+      this.$toast.add({
+        severity: "info",
+        summary: "Success!",
+        detail: messageData.message,
+        life: 3000,
+      });
+      await this.fetchContacts();
     },
   },
 };

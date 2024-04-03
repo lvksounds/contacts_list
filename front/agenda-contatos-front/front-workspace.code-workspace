@@ -1,10 +1,12 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.fontFamily": "fira code",
+    "editor.fontSize": 13
+  }
 }
